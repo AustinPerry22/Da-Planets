@@ -8,6 +8,7 @@ export class GalaxyController extends BaseController {
             .post('', this.createGalaxy)
             .get('', this.getGalaxys)
             .put('/:galaxyId', this.editGalaxy)
+            .delete('/:galaxyId', this.deleteGalaxy)
     }
 
     async getGalaxys(req, res, next) {
@@ -35,6 +36,16 @@ export class GalaxyController extends BaseController {
             const galaxyId = req.params.galaxyId
             const updatedGalaxy = await galaxyService.editGalaxy(galaxyId, body)
             res.send(updatedGalaxy)
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async deleteGalaxy(req, res, next){
+        try {
+            const galaxyId = req.params.galaxyId
+            const message = await galaxyService.deleteGalaxy(galaxyId)
+            res.send(message)
         } catch (error) {
             next(error)
         }
