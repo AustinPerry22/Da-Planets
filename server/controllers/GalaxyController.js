@@ -1,4 +1,5 @@
 import { galaxyService } from "../services/GalaxyService.js";
+import { planetService } from "../services/PlanetService.js";
 import BaseController from "../utils/BaseController.js";
 
 export class GalaxyController extends BaseController {
@@ -9,13 +10,23 @@ export class GalaxyController extends BaseController {
             .get('', this.getGalaxys)
             .put('/:galaxyId', this.editGalaxy)
             .delete('/:galaxyId', this.deleteGalaxy)
+            .get('/:galaxyId/planets', this.getPlanetsByGalaxyId)
     }
-
+    
     async getGalaxys(req, res, next) {
         try {
             const query = req.query
             const galaxys = await galaxyService.getGalaxys(query)
             res.send(galaxys)
+        } catch (error) {
+            next(error)
+        }
+    }
+    async getPlanetsByGalaxyId(req, res, next) {
+        try {
+            const galaxyId = req.params.galaxyId
+            const planets = await planetService.getPlanetsByGalaxyId(galaxyId)
+            res.send(planets)
         } catch (error) {
             next(error)
         }

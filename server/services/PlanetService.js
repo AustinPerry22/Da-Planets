@@ -4,12 +4,17 @@ import { BadRequest } from "../utils/Errors.js"
 class PlanetService {
 
     async getPlanets(query) {
-        const planets = await dbContext.Planet.find(query)
+        const planets = await dbContext.Planet.find(query).populate('galaxy')
+        return planets
+    }
+    async getPlanetsByGalaxyId(galaxyId) {
+        const planets = await dbContext.Planet.find({ galaxyId: galaxyId }).populate('galaxy')
         return planets
     }
 
     async createPlanet(body) {
         const newPlanet = await dbContext.Planet.create(body)
+        await newPlanet.populate('galaxy')
         return newPlanet
     }
 
