@@ -8,7 +8,7 @@ class PlanetService {
         return planets
     }
     async getPlanetsByGalaxyId(galaxyId) {
-        const planets = await dbContext.Planet.find({ galaxyId: galaxyId }).populate('galaxy')
+        const planets = await dbContext.Planet.find({ galaxyId }).populate('galaxy')
         return planets
     }
 
